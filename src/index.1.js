@@ -5,26 +5,12 @@ import { useGesture } from 'react-with-gesture'
 import './styles.css'
 
 const cards = [
-  { 
-    opinion: 'Lo vamos a petar',
-    responseX: 'Claro que sí guapi',
-    responseY: 'Ni del Flais'
-  },
-  { 
-    opinion: 'su PUTA MADRE',
-    responseX: 'Claro que sí guapi',
-    responseY: 'Ni del Flais'
-  },
-  { 
-    opinion: 'Has matado a Jorge, tia controlate, lo necesitas para el proyecto',
-    responseX: 'Nah, a la mierda todo',
-    responseY: 'Ostias, verdad'
-  },
-  { 
-    opinion: 'Si tienes que matar a una persona, ¿a quién matarias?',
-    responseX: 'Ines, está claro',
-    responseY: 'Jorge, no doubt'
-  },
+  'https://upload.wikimedia.org/wikipedia/en/f/f5/RWS_Tarot_08_Strength.jpg',
+  'https://upload.wikimedia.org/wikipedia/en/5/53/RWS_Tarot_16_Tower.jpg',
+  'https://upload.wikimedia.org/wikipedia/en/9/9b/RWS_Tarot_07_Chariot.jpg',
+  'https://upload.wikimedia.org/wikipedia/en/d/db/RWS_Tarot_06_Lovers.jpg',
+  'https://upload.wikimedia.org/wikipedia/en/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg',
+  'https://upload.wikimedia.org/wikipedia/en/d/de/RWS_Tarot_01_Magician.jpg'
 ]
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -46,12 +32,7 @@ function Deck() {
       const isGone = gone.has(index)
       const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
       const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
-      const scale = down ? 1.15 : 1 // Active cards lift up a bit
-      if (isGone && x>1) {
-        console.log('Swipe right')
-      } else if (isGone && x<1) {
-        console.log('Swipe left')
-      }
+      const scale = down ? 1.1 : 1 // Active cards lift up a bit
       return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })
     if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
@@ -59,23 +40,8 @@ function Deck() {
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return props.map(({ x, y, rot, scale }, i) => (
     <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-      {
-        /* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */
-
-        }
-      <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans) }} >
-        <div className="container">
-          <div className="pregunta center"><p>{cards[i].opinion}</p></div>
-          <div className="response center">
-            <p className="response-arrow center">&#8678;</p>
-            <p className="response-text center">{cards[i].responseX}</p>
-          </div>
-          <div className="response center">
-            <p className="response-text center">{cards[i].responseY}</p>
-            <p className="response-arrow center">&#8680;</p>
-          </div>
-        </div>
-      </animated.div>
+      {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
+      <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }} />
     </animated.div>
   ))
 }

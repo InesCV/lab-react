@@ -48,3 +48,52 @@ body {
   border-radius: 10px;
   box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  margin: 5vh;
+}
+
+.pregunta {
+  height: 51vh;
+}
+
+.response {
+  height: 10vh;
+  color: white;
+  background-color: black;
+  font-size: 0.8rem;
+  margin:1vh;
+}
+
+.response-arrow {
+  width: 7vh;
+  font-size: 1.5rem;
+  color: grey;
+  padding: 0.5rem;
+}
+
+.response-text {
+  width: 28vh;
+  padding: 2vh;
+}
+
+/* .opinion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-text {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-text > div {
+  flex-basis: 150px | auto; 
+} */
