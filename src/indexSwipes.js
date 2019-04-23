@@ -1,30 +1,26 @@
 import { render } from 'react-dom'
 import React, { useState } from 'react'
-import { useSpring, useSprings, animated, interpolate } from 'react-spring'
+import { useSprings, animated, interpolate } from 'react-spring'
 import { useGesture } from 'react-with-gesture'
 import './styles.css'
 
 const cards = [
   { 
-    autor: 'Paco is the author',
     opinion: 'Lo vamos a petar',
     responseX: 'Claro que sí guapi',
     responseY: 'Ni del Flais'
   },
   { 
-    autor: 'Made by UOP',
     opinion: 'su PUTA MADRE',
     responseX: 'Claro que sí guapi',
     responseY: 'Ni del Flais'
   },
   { 
-    autor: 'Made by UOP',
     opinion: 'Has matado a Jorge, tia controlate, lo necesitas para el proyecto',
     responseX: 'Nah, a la mierda todo',
     responseY: 'Ostias, verdad'
   },
   { 
-    autor: 'Made by UOP',
     opinion: 'Si tienes que matar a una persona, ¿a quién matarias?',
     responseX: 'Ines, está claro',
     responseY: 'Jorge, no doubt'
@@ -33,19 +29,13 @@ const cards = [
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
-const from = i => ({ x: 0, y: i * -4, rot: 0, scale: 1.5 })
+const from = i => ({ x: 0, y: i * -4, rot: 0, scale: 1.5, y: -1000 })
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) => `perspective(1500px) rotateX(5deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 function Deck() {
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
-  const [flipped, setFlip] = useState(false)
   const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
-  const { transform, opacity } = useSpring({
-    opacity: flipped ? 1 : 0,
-    transform: `perspective(600px) rotateY(${flipped ? 180 : 0}deg)`,
-    config: { mass: 7, tension: 500, friction: 80 }
-  })
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useGesture(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
@@ -68,29 +58,26 @@ function Deck() {
     })
     if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
   })
-  
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return props.map(({ x, y, rot, scale }, i) => (
-    <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }} onDoubleClick={() => setFlip(state => !state)}>
-      {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-        <animated.div className="cards" {...bind(i)} style={{ transform: interpolate([rot, scale], trans) }} >
-            <animated.div className="card front" style={{ opacity: opacity.interpolate(o => 1 - o), transform }} >
-              <div className="container">
-                <div className="pregunta center"><p>{cards[i].opinion}</p></div>
-                <div className="response center">
-                  <p className="response-arrow center">&#8678;</p>
-                  <p className="response-text center">{cards[i].responseX}</p>
-                </div>
-                <div className="response center">
-                  <p className="response-text center">{cards[i].responseY}</p>
-                  <p className="response-arrow center">&#8680;</p>
-                </div>
-              </div>
-            </animated.div>
-            <animated.div className="card back" style={{ opacity, transform: transform.interpolate(t => `${t} rotateY(180deg)`) } }>
-              <div className="container pregunta center"><p>{cards[i].autor}</p></div>
-            </animated.div>
-        </animated.div>
+    <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
+      {
+        /* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */
+
+        }
+      <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans) }} >
+        <div className="container">
+          <div className="pregunta center"><p>{cards[i].opinion}</p></div>
+          <div className="response center">
+            <p className="response-arrow center">&#8678;</p>
+            <p className="response-text center">{cards[i].responseX}</p>
+          </div>
+          <div className="response center">
+            <p className="response-text center">{cards[i].responseY}</p>
+            <p className="response-arrow center">&#8680;</p>
+          </div>
+        </div>
+      </animated.div>
     </animated.div>
   ))
 }
