@@ -6,28 +6,40 @@ import './styles.css'
 
 const cards = [
   { 
-    autor: 'Paco is the author',
-    opinion: 'Lo vamos a petar',
-    responseX: 'Claro que sí guapi',
-    responseY: 'Ni del Flais'
+    author: 'Paco is the author',
+    category: 'Nonsense',
+    question: 'Lo vamos a petar',
+    response: {
+      x: 'Claro que sí guapi',
+      y: 'Ni del Flais'
+    }
   },
   { 
-    autor: 'Made by UOP',
-    opinion: 'su PUTA MADRE',
-    responseX: 'Claro que sí guapi',
-    responseY: 'Ni del Flais'
+    author: 'Made by UOP',
+    category: 'Nonsense',
+    question: 'su PUTA MADRE',
+    response: {
+      x: 'Claro que sí guapi',
+      y: 'Ni del Flais'
+    }
   },
   { 
-    autor: 'Made by UOP',
-    opinion: 'Has matado a Jorge, tia controlate, lo necesitas para el proyecto',
-    responseX: 'Nah, a la mierda todo',
-    responseY: 'Ostias, verdad'
+    author: 'Made by UOP',
+    category: 'Nonsense',
+    question: 'Has matado a Jorge, tia controlate, lo necesitas para el proyecto',
+    response: {
+      x: 'Nah, a la mierda todo',
+      y: 'Ostias, verdad'
+    }
   },
   { 
-    autor: 'Made by UOP',
-    opinion: 'Si tienes que matar a una persona, ¿a quién matarias?',
-    responseX: 'Ines, está claro',
-    responseY: 'Jorge, no doubt'
+    author: 'Made by UOP',
+    category: 'Nonsense',
+    question: 'Si tienes que matar a una persona, ¿a quién matarias?',
+    response: {
+      x: 'Ines, está claro',
+      y: 'Jorge, no doubt'
+    }
   },
 ]
 
@@ -66,7 +78,7 @@ function Deck() {
       }
       return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })
-    if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
+    if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600) // It makes the cards return after there are none left
   })
   
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
@@ -76,19 +88,19 @@ function Deck() {
         <animated.div className="cards" {...bind(i)} style={{ transform: interpolate([rot, scale], trans) }} >
             <animated.div className="card front" style={{ opacity: opacity.interpolate(o => 1 - o), transform }} >
               <div className="container">
-                <div className="pregunta center"><p>{cards[i].opinion}</p></div>
+                <div className="pregunta center"><p>{cards[i].question}</p></div>
                 <div className="response center">
                   <p className="response-arrow center">&#8678;</p>
-                  <p className="response-text center">{cards[i].responseX}</p>
+                  <p className="response-text center">{cards[i].response.x}</p>
                 </div>
                 <div className="response center">
-                  <p className="response-text center">{cards[i].responseY}</p>
+                  <p className="response-text center">{cards[i].response.y}</p>
                   <p className="response-arrow center">&#8680;</p>
                 </div>
               </div>
             </animated.div>
             <animated.div className="card back" style={{ opacity, transform: transform.interpolate(t => `${t} rotateY(180deg)`) } }>
-              <div className="container pregunta center"><p>{cards[i].autor}</p></div>
+              <div className="container pregunta center"><p>{cards[i].author}</p></div>
             </animated.div>
         </animated.div>
     </animated.div>
