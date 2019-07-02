@@ -6,39 +6,39 @@ import './styles.css'
 
 const cards = [
   { 
-    author: 'Paco is the author',
+    author: 'Ines',
     category: 'Nonsense',
-    question: 'Lo vamos a petar',
+    question: 'This is a question',
     response: {
-      x: 'Claro que sí guapi',
-      y: 'Ni del Flais'
+      x: 'Yes',
+      y: 'No way'
+    }
+  },
+  { 
+    author: 'Jorge',
+    category: 'Nonsense',
+    question: 'Is this a card swipe?',
+    response: {
+      x: 'Yep',
+      y: 'Nope'
+    }
+  },
+  { 
+    author: 'UOP',
+    category: 'Nonsense',
+    question: 'Spring test',
+    response: {
+      x: 'Yeah',
+      y: 'No, please no'
     }
   },
   { 
     author: 'Made by UOP',
     category: 'Nonsense',
-    question: 'su PUTA MADRE',
+    question: 'Swipe test',
     response: {
-      x: 'Claro que sí guapi',
-      y: 'Ni del Flais'
-    }
-  },
-  { 
-    author: 'Made by UOP',
-    category: 'Nonsense',
-    question: 'Has matado a Jorge, tia controlate, lo necesitas para el proyecto',
-    response: {
-      x: 'Nah, a la mierda todo',
-      y: 'Ostias, verdad'
-    }
-  },
-  { 
-    author: 'Made by UOP',
-    category: 'Nonsense',
-    question: 'Si tienes que matar a una persona, ¿a quién matarias?',
-    response: {
-      x: 'Ines, está claro',
-      y: 'Jorge, no doubt'
+      x: 'Sure',
+      y: 'No'
     }
   },
 ]
